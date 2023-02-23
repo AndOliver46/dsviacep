@@ -1,5 +1,5 @@
 import Address from "../models/address.js";
-import * as requestService from "../services/request-service.js";
+import { findByCep } from "../services/address-service.js";
 
 function State() {
   this.address = new Address();
@@ -34,14 +34,28 @@ export function init() {
 
   state.btnClear.addEventListener("click", handleBtnClearClick);
   state.btnSave.addEventListener("click", handleBtnSaveClick);
+  state.inputCep.addEventListener("change", handleInputCepChange);
+}
+
+async function handleInputCepChange(event) {
+  try {
+    const address = await findByCep(event.target.value);
+    state.inputCity.value = address.city;
+    state.inputStreet.value = address.street;
+    state.address = address;
+
+    setFormError("cep", "");
+    state.inputNumber.focus();
+  } catch (e) {
+    state.inputCity.value = "";
+    state.inputStreet.value = "";
+    setFormError("cep", "Informe um cep válido!");
+  }
 }
 
 async function handleBtnSaveClick(event) {
   event.preventDefault();
-  const result = await requestService.getJson(
-    "https://viacep.com.br/ws/01001000/json/"
-  );
-  console.log(result);
+  console.log("Salvou o endereco");
 }
 
 function handleBtnClearClick(event) {

@@ -30,11 +30,17 @@ export function init() {
   state.errorCep = document.querySelector('[data-error="cep"]');
   state.errorNumber = document.querySelector('[data-error="number"]');
 
-  state.inputNumber.addEventListener("change", handleInputNumberChange);
-
   state.btnClear.addEventListener("click", handleBtnClearClick);
   state.btnSave.addEventListener("click", handleBtnSaveClick);
+
   state.inputCep.addEventListener("change", handleInputCepChange);
+  state.inputNumber.addEventListener("keyup", handleInputNumberKeyUp);
+  state.inputNumber.addEventListener("change", handleInputNumberChange);
+}
+
+function handleInputNumberKeyUp(event) {
+  const number = event.target.value;
+  state.address.number = number;
 }
 
 async function handleInputCepChange(event) {
@@ -55,7 +61,14 @@ async function handleInputCepChange(event) {
 
 async function handleBtnSaveClick(event) {
   event.preventDefault();
-  console.log("Salvou o endereco");
+
+  if (state.address.number == "" || state.address.number == null) {
+    setFormError("number", "Campo requerido");
+  } else if (state.address.cep == "" || state.address.cep == null) {
+    setFormError("cep", "Campo requerido");
+  } else {
+    console.log(state.address);
+  }
 }
 
 function handleBtnClearClick(event) {

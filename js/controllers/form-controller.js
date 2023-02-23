@@ -1,5 +1,6 @@
 import Address from "../models/address.js";
 import { findByCep } from "../services/address-service.js";
+import { addCard } from "./list-controller.js";
 
 function State() {
   this.address = new Address();
@@ -67,7 +68,7 @@ async function handleBtnSaveClick(event) {
   } else if (state.address.cep == "" || state.address.cep == null) {
     setFormError("cep", "Campo requerido");
   } else {
-    console.log(state.address);
+    addCard(state.address);
   }
 }
 

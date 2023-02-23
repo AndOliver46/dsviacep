@@ -1,6 +1,6 @@
 import Address from "../models/address.js";
-import { findByCep } from "../services/address-service.js";
-import { addCard } from "./list-controller.js";
+import * as adressService from "../services/address-service.js";
+import * as listController from "./list-controller.js";
 
 function State() {
   this.address = new Address();
@@ -46,7 +46,7 @@ function handleInputNumberKeyUp(event) {
 
 async function handleInputCepChange(event) {
   try {
-    const address = await findByCep(event.target.value);
+    const address = await adressService.findByCep(event.target.value);
     state.inputCity.value = address.city;
     state.inputStreet.value = address.street;
     state.address = address;
@@ -60,15 +60,19 @@ async function handleInputCepChange(event) {
   }
 }
 
-async function handleBtnSaveClick(event) {
+function handleBtnSaveClick(event) {
   event.preventDefault();
 
-  if (state.address.number == "" || state.address.number == null) {
-    setFormError("number", "Campo requerido");
-  } else if (state.address.cep == "" || state.address.cep == null) {
-    setFormError("cep", "Campo requerido");
+  const errors = adressService.getErros(state.address);
+  const keys = Object.keys(errors);
+
+  if (keys.length > 0) {
+    for (let i = 0; i < keys.length; i++) {
+      setFormError(keys[i], errors[keys[i]]);
+    }
   } else {
-    addCard(state.address);
+    listController.addCard(state.address);
+    clearForm();
   }
 }
 
@@ -93,6 +97,8 @@ function clearForm() {
 
   setFormError("cep", "");
   setFormError("number", "");
+
+  state.address = new Address();
 
   state.inputCep.focus();
 }

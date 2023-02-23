@@ -97,3 +97,36 @@ body {
   font-weight: 700;
   font-size: 14px;
 }
+
+.list-container {
+  width: 100%;
+  display: flex;
+  padding: 0px 20px;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.card-list-item {
+  background-color: #333;
+  color: #fff;
+  max-width: 900px;
+  width: 100%;
+  margin: 0px auto;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.card-list-item h3 {
+  color: #ff8400;
+  font-size: 18px;
+}
+
+.address-line {
+  color: #fff;
+  font-size: 14px;
+}
+
+.address-cep {
+  color: #8f8f8f;
+  font-size: 12px;
+}

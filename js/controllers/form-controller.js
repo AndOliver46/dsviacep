@@ -1,4 +1,9 @@
+import Address from "../models/address.js";
+
 function State() {
+
+  this.address = new Address();
+
   this.inputCep = null;
   this.inputStreet = null;
   this.inputNumber = null;
@@ -24,6 +29,8 @@ export function init() {
 
   state.errorCep = document.querySelector('[data-error="cep"]');
   state.errorNumber = document.querySelector('[data-error="number"]');
+
+  
 
   console.log(state);
 }
